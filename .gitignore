@@ -1,0 +1,71 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Environment variables
+.env
+
+# IDE / editor settings
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Logs and temp files
+*.log
+*.pot
+*.pyc
+*.pyo
+*.swp
+*.swo
+
+# Django DB
+*.sqlite3
+db.sqlite3
+
+# Django static/media
+/staticfiles/
+/media/
+
+# Django migrations (ignore all except __init__.py)
+**/migrations/
+!**/migrations/__init__.py
+
+# Coverage/test
+htmlcov/
+.coverage
+.tox/
+.nox/
+.pytest_cache/
+coverage.xml
+.cache/
+
+# Frontend
+node_modules/
+dist/
+build/
+
+# Docker
+*.pid
+__docker_cache__/
+docker-compose.override.yml
+volumes/
+
+# Draw.io backups
+*.drawio~
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Backup / archive
+*.bak
+*.zip
+*.tar.gz
+*.rar

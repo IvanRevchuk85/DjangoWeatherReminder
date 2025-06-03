@@ -1,0 +1,68 @@
+version: '3.9'
+
+services:
+  celery-beat:
+    build: .
+    command: celery -A django_weather_reminder beat -l info
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - db
+    env_file:
+      - .env
+
+  celery-worker:
+    build: .
+    command: celery -A django_weather_reminder worker -l info  # 🛠 Запуск worker
+    volumes:
+      - .:/app  # 📁 Монтируем текущую директорию
+    depends_on:
+      - redis   # ☁️ Redis — брокер сообщений
+      - db      # 🐘 БД
+    env_file:
+      - .env    # 🔑 Переменные окружения
+
+  db:
+    image: postgres:14
+    container_name: 16-db-1  # 👈 Добавим для удобства
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: ${DB_NAME}         # имя БД из .env
+      POSTGRES_USER: ${DB_USER}       # пользователь из .env
+      POSTGRES_PASSWORD: ${DB_PASSWORD} # пароль из .env
+    ports:
+      - "5432:5432"
+    restart: always                   # 👈 На всякий случай — чтобы перезапускался
+
+  web:
+    build: .
+    command: >
+      sh -c "
+        python manage.py collectstatic --noinput &&
+        python manage.py migrate &&
+        python manage.py runserver 0.0.0.0:8000
+      "
+    container_name: 16-web-1
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis  # ✅ Django ждёт Redis
+
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
+
+volumes:
+  postgres_data:
+  static_volume:

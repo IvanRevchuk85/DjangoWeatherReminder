@@ -1,0 +1,36 @@
+# ❌ Виртуальное окружение
+venv/
+
+# ❌ Переменные окружения
+.env
+*.env
+
+# ❌ Базы данных
+*.sqlite3
+
+# ❌ Python кеши
+__pycache__/
+*.py[cod]
+*.pyo
+
+# ❌ Git
+.git/
+.gitignore
+
+# ❌ IDE и редакторы
+.idea/
+.vscode/
+*.swp
+
+# ❌ Сборки
+dist/
+build/
+*.egg-info/
+
+# ❌ Django статика и медиа
+staticfiles/
+media/
+
+# ❌ Docker
+.dockerignore
+# ❗️ Не добавляй сюда Dockerfile!

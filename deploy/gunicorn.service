@@ -1,0 +1,17 @@
+[Unit]
+Description=gunicorn daemon for DjangoWeatherReminder
+After=network.target
+
+[Service]
+User=sonyateevee
+Group=www-data
+WorkingDirectory=/home/sonyateevee/django-weather-reminder
+EnvironmentFile=/home/sonyateevee/django-weather-reminder/.env
+ExecStart=/usr/local/bin/gunicorn \
+          --access-logfile - \
+          --workers 3 \
+          --bind 127.0.0.1:8000 \
+          django_weather_reminder.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
