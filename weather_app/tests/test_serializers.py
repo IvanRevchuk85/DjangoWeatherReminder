@@ -7,7 +7,7 @@ from datetime import time
 @pytest.mark.django_db
 def test_reminder_serializer(test_user):
     """
-    🔄 Тест сериализации напоминания
+    🔄 Reminder Serialization Test
     """
     reminder = Reminder.objects.create(
         user=test_user,
@@ -24,7 +24,7 @@ def test_reminder_serializer(test_user):
 @pytest.mark.django_db
 def test_subscription_serializer(test_user):
     """
-    🔄 Тест сериализации подписки
+    🔄 Subscription serialization test
     """
     sub = Subscription.objects.create(
         user=test_user,
@@ -40,7 +40,7 @@ def test_subscription_serializer(test_user):
 @pytest.mark.django_db
 def test_weatherdata_serializer():
     """
-    🔄 Тест сериализации погодных данных
+    🔄 Weather data serialization test
     """
     weather = WeatherData.objects.create(
         city="Odesa",

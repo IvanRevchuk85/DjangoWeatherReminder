@@ -1,14 +1,14 @@
-# ❌ Виртуальное окружение
+# ❌ Virtual environment
 venv/
 
-# ❌ Переменные окружения
+# ❌ Environment variables
 .env
 *.env
 
-# ❌ Базы данных
+# ❌ Databases
 *.sqlite3
 
-# ❌ Python кеши
+# ❌ Python caches
 __pycache__/
 *.py[cod]
 *.pyo
@@ -17,20 +17,20 @@ __pycache__/
 .git/
 .gitignore
 
-# ❌ IDE и редакторы
+# ❌ IDEs and editors
 .idea/
 .vscode/
 *.swp
 
-# ❌ Сборки
+# ❌ Build artifacts
 dist/
 build/
 *.egg-info/
 
-# ❌ Django статика и медиа
+# ❌ Django static and media files
 staticfiles/
 media/
 
 # ❌ Docker
 .dockerignore
-# ❗️ Не добавляй сюда Dockerfile!
+# ❗️ Do not add Dockerfile here!

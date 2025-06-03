@@ -1,23 +1,22 @@
-# 🐍 Используем официальный образ Python 3.12
+# 🐍 Use official Python 3.12 image
 FROM python:3.12-slim
 
-# 📁 Рабочая директория внутри контейнера
+# 📁 Set working directory inside the container
 WORKDIR /app
 
-# 🔁 Копируем файл зависимостей
+# 🔁 Copy dependencies file
 COPY requirements.txt .
 
-# 📦 Установка зависимостей
+# 📦 Install dependencies
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# 🔁 Копируем все файлы проекта
+# 🔁 Copy all project files
 COPY . .
 
-# 🔧 Отключаем .pyc-файлы и буферизацию
+# 🔧 Disable .pyc files and enable unbuffered output
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-
-# 🚀 Запуск сервера при старте контейнера
+# 🚀 Collect static files and start the server on container launch
 RUN python manage.py collectstatic --noinput
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

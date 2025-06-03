@@ -46,7 +46,7 @@ def test_jwt_token_auth(test_user):
     assert "access" in response.data
     access_token = response.data["access"]
 
-    # Проверяем доступ с токеном
+    # Checking access with a token
     client.credentials(HTTP_AUTHORIZATION=f"Bearer {access_token}")
     response = client.get("/api/reminders/")
     assert response.status_code == 200

@@ -33,10 +33,11 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         """
-        Переопределяем create, чтобы показать более информативные ошибки при 400 Bad Request.
+       Override create to show more informative errors when 400 Bad Request occurs.
         """
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)  # если что-то не так — выдаст подробное описание
+        # if something is wrong, it will give a detailed description
+        serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -46,18 +47,20 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
 
 # Weather
 class WeatherDataView(APIView):
-    permission_classes = [IsAuthenticated]  # Доступ только авторизованным
+    # Access only for authorized persons
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        city = request.query_params.get('city')  # Получаем параметр city из URL
-
+        # Get the city parameter from the URL
+        city = request.query_params.get('city')
         if not city:
-            return Response({"error": "Параметр city обязателен"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "The city parameter is required."}, status=status.HTTP_400_BAD_REQUEST)
 
-        weather = get_weather_by_city(city)  # Получаем данные погоды из сервиса
+        # We receive weather data from the service
+        weather = get_weather_by_city(city)
 
         if weather:
-            # Сохраняем данные о погоде в БД
+            # Saving weather data to the database
             WeatherData.objects.create(
                 city=city,
                 temperature=weather['main']['temp'],
@@ -65,9 +68,9 @@ class WeatherDataView(APIView):
                 description=weather['weather'][0]['description']
             )
         else:
-            return Response({"error": "Не удалось получить погоду"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Failed to get weather"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Получаем последние 10 записей о погоде
+        # Get the last 10 weather records
         queryset = WeatherData.objects.all().order_by('-timestamp')[:10]
         serializer = WeatherDataSerializer(queryset, many=True)
         return Response(serializer.data)

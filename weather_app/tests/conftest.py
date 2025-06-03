@@ -1,29 +1,34 @@
+from datetime import time
+from rest_framework.test import APIClient
+from weather_app.models import Reminder, Subscription, WeatherData
+from django.contrib.auth.models import User
+import pytest
 import os
 import django
 from dotenv import load_dotenv
 
-# Загружаем переменные окружения
+# Loading environment variables
 load_dotenv()
 
-# Устанавливаем модуль настроек Django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_weather_reminder.settings')
+# Installing the Django Settings Module
+os.environ.setdefault('DJANGO_SETTINGS_MODULE',
+                      'django_weather_reminder.settings')
 
-# Запускаем Django до любых импортов моделей или ORM
+# Run Django before any model or ORM imports
 django.setup()
 
-# Теперь можно импортировать всё, что зависит от Django
-import pytest
-from django.contrib.auth.models import User
-from weather_app.models import Reminder, Subscription, WeatherData
-from rest_framework.test import APIClient
-from datetime import time
+# Now you can import everything that depends on Django
 
-# ✅ Базовый пользователь
+# ✅ Basic user
+
+
 @pytest.fixture()
 def test_user(db):
     return User.objects.create_user(username="ivan", password="73501505")
 
-# ✅ Напоминание
+# ✅ Reminder
+
+
 @pytest.fixture()
 def test_reminder(test_user):
     return Reminder.objects.create(
@@ -33,7 +38,9 @@ def test_reminder(test_user):
         is_active=True,
     )
 
-# ✅ Подписка
+# ✅ Subscription
+
+
 @pytest.fixture()
 def test_subscription(test_user):
     return Subscription.objects.create(
@@ -42,7 +49,9 @@ def test_subscription(test_user):
         period=6,
     )
 
-# ✅ Погода
+# ✅ Weather
+
+
 @pytest.fixture()
 def test_weather(db):
     return WeatherData.objects.create(
@@ -52,23 +61,31 @@ def test_weather(db):
         description="Солнечно"
     )
 
-# ✅ API клиент без авторизации
+# ✅ API client without authorization
+
+
 @pytest.fixture()
 def api_client():
     return APIClient()
 
-# ✅ API клиент с авторизацией
+# ✅ API client with authorization
+
+
 @pytest.fixture()
 def authenticated_client(api_client, test_user):
     api_client.force_authenticate(user=test_user)
     return api_client
 
-# ✅ Валидные данные для подписки
+# ✅ Valid data for subscription
+
+
 @pytest.fixture()
 def valid_subscription_data():
     return {"city": "Kyiv", "period": 6}
 
-# ✅ Мок ответа погоды
+# ✅ Weather response mockup
+
+
 @pytest.fixture()
 def mocked_weather_response():
     return {

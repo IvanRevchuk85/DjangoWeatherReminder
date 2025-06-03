@@ -2,10 +2,10 @@ import requests
 from django.conf import settings
 
 
-# Получение погоды по имени города
+# Get weather by city name
 def fetch_weather_by_city(city_name):
     """
-    Отпровляет запрос в OpenWeather API и возвращает JSON с  погодой
+    Sends a request to the OpenWeather API and returns JSON with the weather
     """
     base_url = "https://api.openweathermap.org/data/2.5/weather"
     params = {
@@ -20,5 +20,5 @@ def fetch_weather_by_city(city_name):
         response.raise_for_status()
         return response.json()
     except requests.RequestException as e:
-        print(f"❌ Ошибка при запросе погоды для {city_name}: {e}")
+        print(f"❌ Error while requesting weather for {city_name}: {e}")
         return None

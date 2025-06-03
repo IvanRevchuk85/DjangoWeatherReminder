@@ -1,23 +1,23 @@
 # 🌦 Django Weather Reminder
 
-Приложение для напоминаний о погоде с подписками на города и автоматическим сбором погодных данных через API OpenWeather.  
-Использует: Django + DRF + JWT + Docker + PostgreSQL.
+A weather reminder application with city-based subscriptions and automatic weather data collection via the OpenWeather API.
+Stack: Django + DRF + JWT + Docker + PostgreSQL.
 
 ---
 
 ## 🚀 Возможности
 
-- Регистрация и авторизация пользователей (JWT).
-- Создание напоминаний с указанием города и времени.
-- Подписки на периодические уведомления о погоде по email и/или webhook.
-- Получение данных о погоде с OpenWeather API.
-- Асинхронная рассылка уведомлений через Celery + Redis.
-- Тестирование всех ключевых компонентов (модели, сериализаторы, API, сервисы, задачи).
-- Docker-инфраструктура с PostgreSQL, Redis, Celery, Django.
+- User registration and authentication (JWT)
+- Creating reminders by city and time
+- Subscriptions for periodic weather notifications via email and/or webhook
+- Real-time weather data from the OpenWeather API
+- Asynchronous notifications via Celery + Redis
+- Full testing of all core components (models, serializers, APIs, services, tasks)
+- Docker-based infrastructure: PostgreSQL, Redis, Celery, Django
 
 ---
 
-## 📁 Структура проекта
+## 📁 Project Structure
 
 ```
 django_weather_reminder/
@@ -89,18 +89,17 @@ django_weather_reminder/
 
 ---
 
-## ⚙️ Установка и запуск
+## ⚙️ Setup & Launch
+### 🔧 Clone the project
 
-### 🔧 Клонирование проекта
-
-```bash
+```
 git clone git@git.foxminded.ua:foxstudent107439/task_17.git
 cd django-weather-reminder
 ```
 
-### 📦 Настройка `.env`
+### 📦 Setting `.env`
 
-Создай файл `.env` и укажи:
+Create a .env file with the following::
 
 ```
 SECRET_KEY=your_secret_key
@@ -118,54 +117,53 @@ OPENWEATHER_API_KEY=your_api_key
 
 ---
 
-## 🐳 Запуск в Docker
+## 🐳 Run in Docker
 
-```bash
+```
 docker-compose up --build
 ```
 
-Приложение будет доступно по адресу:  
+The application will be available at:  
 🔗 http://127.0.0.1:8000/
 
 ---
 
-## 🔑 JWT Аутентификация
+## 🔑 JWT Authentication
 
-- Получить токен: `POST /api/token/`
-- Обновить токен: `POST /api/token/refresh/`
+- Get token: `POST /api/token/`
+- Refresh token: `POST /api/token/refresh/`
 
 ---
 
 ## 🔍 API эндпоинты
 
-| Метод | URL                      | Описание                             |
+| Method | URL                      | Description                             |
 |-------|--------------------------|--------------------------------------|
-| GET   | /api/reminders/          | Получить напоминания текущего юзера |
-| POST  | /api/reminders/          | Создать напоминание                 |
-| GET   | /api/subscriptions/      | Список подписок пользователя       |
-| POST  | /api/subscriptions/      | Подписка на город                  |
-| GET   | /api/weather/?city=Kyiv  | Получить и сохранить погоду по городу |
+| GET   | /api/reminders/          | Get reminders for the current user |
+| POST  | /api/reminders/          | Create a new reminder                 |
+| GET   | /api/subscriptions/      | List of user subscriptions      |
+| POST  | /api/subscriptions/      | Subscribe to a city                  |
+| GET   | /api/weather/?city=Kyiv  | Get and store weather data by city name |
 
 ---
 
-## 🧪 Тестирование
+## 🧪 Testing
 
-### Запуск всех тестов в Docker-контейнере:
+### Run all tests inside Docker container:
 
-```bash
+```
 docker-compose exec web pytest -v --tb=short
 ```
 
 ### Покрытие кода (если настроен coverage):
 
-```bash
+```
 docker-compose exec web pytest --cov=weather_app
 ```
 
 ---
 
-## 🧠 Зависимости
-
+## 🧠 Dependencies
 - Python 3.12
 - Django 5.1.7
 - djangorestframework
@@ -177,24 +175,12 @@ docker-compose exec web pytest --cov=weather_app
 
 ---
 
-## ✅ Покрытие тестами
+## 📄 License
 
-Покрытие реализовано для:
-
-- `models.py`  
-- `serializers.py`  
-- `views.py`  
-- `services/weather_service.py`  
-- `urls.py` (неявно через views)
+This project is licensed under the MIT License.
 
 ---
 
-## 📄 Лицензия
-
-Этот проект лицензирован под MIT License.
-
----
-
-## 👨‍💻 Автор
+## 👨‍💻 Author
 
 Created with  by Ivan Revchuk  

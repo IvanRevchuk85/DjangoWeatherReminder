@@ -4,25 +4,27 @@ from weather_app.services.weather_fetcher import fetch_weather_by_city
 from weather_app.services.notification_service import notify_subscriber
 from weather_app.models import Subscription
 
+
 @shared_task
 def send_weather_notifications():
     """
-    Задача Celery: отправляет уведомления подписчикам
+    Celery task: sends notifications to subscribers
     """
-    print("🚀 Начинаем рассылку уведомлений подписчикам")
+    print("🚀 We are starting to send notifications to subscribers")
 
-    now = timezone.now().date()  # Получаем текущую дату
-    subscriptions = Subscription.objects.all()  # Получаем все подписки (в будущем можно фильтровать)
+    now = timezone.now().date()  # We get the current date
+    # We receive all subscriptions (in the future you can filter)
+    subscriptions = Subscription.objects.all()
 
     for sub in subscriptions:
-        city = sub.city  # Город из подписки
-        user = sub.user  # Пользователь, владелец подписки
+        city = sub.city  # City from subscription
+        user = sub.user  # User, subscription owner
 
-        # 🛰️ Получаем данные погоды
+        # 🛰️ Getting weather data
         data = fetch_weather_by_city(city)
 
         if data:
-            # 🔄 Преобразуем данные в нужный формат
+            # 🔄 We transform the data into the required format
             weather_data = {
                 "city": city,
                 "temperature": data.get("main", {}).get("temp"),
@@ -30,7 +32,7 @@ def send_weather_notifications():
                 "description": data.get("weather", [{}])[0].get("description"),
             }
 
-            # 📤 Отправляем уведомление по email/webhook, если нужно
+            # 📤 Send notification via email/webhook if needed
             notify_subscriber(
                 user=user,
                 weather_data=weather_data,
@@ -39,8 +41,8 @@ def send_weather_notifications():
                 webhook_url=getattr(sub, "webhook_url", None),
             )
 
-            print(f"✅ Уведомление отправлено для {user.username} ({city})")
+            print(f"✅ Notification sent to {user.username} ({city})")
         else:
-            print(f"⚠️ Не удалось получить погоду для {city}")
+            print(f"⚠️ Unable to get weather for {city}")
 
-    print("🏁 Рассылка завершена")
+    print("🏁 Mailing completed")

@@ -1,171 +1,94 @@
-# 🧱 System Architecture — DjangoWeatherReminder
+🧱 System Architecture — DjangoWeatherReminder
+This document describes the system architecture of the DjangoWeatherReminder application using a UML class diagram and textual component explanations.
 
-This document describes the system architecture of the DjangoWeatherReminder application using UML class diagram components and text-based module explanation.
+🌐 UML Class Diagram Overview
+The system includes the following main components:
 
----
+🧍 User
+Represents a registered user or an integrated third-party service.
 
-## 🌐 UML Class Diagram Overview
+Attributes:
 
-The following components are present in the system:
+email: string
 
----
+password: string
 
-### 🧍 User
+authToken: string (JWT)
 
-Represents a registered user or third-party service.
+Responsibilities:
 
-**Attributes:**
-- `email: string`
-- `password: string`
-- `authToken: string` (JWT)
+Subscribe to weather updates
 
-**Responsibilities:**
-- Subscribe to weather updates
-- Unsubscribe from updates
-- Edit subscriptions
-- Retrieve a list of subscriptions
+Unsubscribe from notifications
 
----
+Modify existing subscriptions
 
-### 📬 EmailNotifier
+Retrieve a list of subscriptions
 
-Handles sending weather updates via email.
+📬 EmailNotifier
+Sends weather update notifications via email.
 
-**Methods:**
-- `sendEmail(email: string, content: string): void`
+Methods:
 
-Used by the system to notify users by email.
+sendEmail(email: string, content: string): void
 
----
+This component handles communication with users via email.
 
-### 🌐 WebhookNotifier
+🌐 WebhookNotifier
+Sends weather updates to third-party systems via HTTP webhooks.
 
-Used to send notifications to external systems via webhook.
+Methods:
 
-**Methods:**
-- `sendWebhook(url: string, payload: string): void`
+sendWebhook(url: string, payload: string): void
 
----
+Used for integrations with external platforms.
 
-### ☁️ WeatherAPI
+☁️ WeatherAPI
+External weather provider (e.g., OpenWeatherMap) used to fetch real-time data.
 
-External dependency used to fetch real-time weather data.
+Methods:
 
-**Methods:**
-- `getWeatherData(city: string): WeatherData`
+getWeatherData(city: string): WeatherData
 
----
+Handles third-party API calls.
 
-### 🌡 WeatherData
+🌡 WeatherData
+Represents a set of weather conditions retrieved from an API.
 
-Stores weather parameters retrieved from an external API.
+Attributes:
 
-**Attributes:**
-- `temperature: float`
-- `humidity: int`
-- `description: string`
+temperature: float
 
----
+humidity: int
 
-### 📄 Subscription
+description: string
 
-Describes a user's subscription to a specific city with a set notification interval.
+Used internally by notification services.
 
-**Attributes:**
-- `city: string`
-- `period: int` (1, 3, 6, or 12 hours)
+📄 Subscription
+Describes the user's subscription to weather updates for a specific city.
 
-**Methods:**
-- `edit(period: int): void`
+Attributes:
 
----
+city: string
 
-## 🧾 Summary
+period: int (in hours — 1, 3, 6, or 12)
 
-The architecture fully supports the storyline from Task 16:
+Methods:
 
-- Registration with JWT token
-- Weather subscription per city
-- Custom notification periods (1, 3, 6, 12 hours)
-- Notifications via email or webhook
-- Integration with external weather API
+edit(period: int): void
 
----
+Manages subscription settings and update frequency.
 
-##  Архитектура системы — DjangoWeatherReminder
+🧾 Summary
+This architecture was designed in accordance with the requirements of Task 16 and enables:
 
-Этот документ описывает архитектуру приложения DjangoWeatherReminder на основе UML-диаграммы классов.
+User registration and JWT-based authentication
 
----
+Weather subscriptions per city
 
-### 👤 Пользователь (User)
+Flexible notification intervals (1, 3, 6, 12 hours)
 
-Представляет пользователя или сторонний сервис.
+Support for both email and webhook notifications
 
-**Атрибуты:**
-- `email: string`
-- `password: string`
-- `authToken: string` (JWT)
-
-**Ответственность:**
-- Подписка на города
-- Управление подписками
-- Получение списка подписок
-
----
-
-### 📧 EmailNotifier
-
-Отправляет уведомления по email.
-
-**Метод:**
-- `sendEmail(email: string, content: string): void`
-
----
-
-### 🌍 WebhookNotifier
-
-Отправляет уведомления через webhook для сторонних сервисов.
-
-**Метод:**
-- `sendWebhook(url: string, payload: string): void`
-
----
-
-### ☁️ WeatherAPI
-
-Внешний сервис получения погодных данных (например, OpenWeather).
-
-**Метод:**
-- `getWeatherData(city: string): WeatherData`
-
----
-
-### 🌡 Погодные данные (WeatherData)
-
-Хранит:
-- `temperature: float`
-- `humidity: int`
-- `description: string`
-
----
-
-### 🔔 Подписка (Subscription)
-
-**Атрибуты:**
-- `city: string`
-- `period: int` (1, 3, 6, 12 часов)
-
-**Метод:**
-- `edit(period: int): void`
-
----
-
-## 🏁 Вывод
-
-Диаграмма и архитектура полностью соответствуют требованиям задания Task 16 и позволяют реализовать функциональность:
-- регистрация и токен,
-- подписка на города с интервалами,
-- получение и отправка уведомлений,
-- интеграция с внешними API.
-
+Integration with external weather APIs

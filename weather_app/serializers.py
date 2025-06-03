@@ -6,7 +6,7 @@ class ReminderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reminder
         fields = '__all__'
-        # Защищаем поле user от ручного ввода
+        # Protecting the user field from manual input
         extra_kwargs = {'user': {'read_only': True}}
 
 
@@ -14,7 +14,7 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
         fields = '__all__'
-        # Поле user автоматически добавляется в view — руками не шлём
+        # The user field is automatically added to the view - do not send it manually
         extra_kwargs = {'user': {'read_only': True}}
 
 
